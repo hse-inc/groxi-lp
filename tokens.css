@@ -23,11 +23,11 @@
   --color-plate: #ffffff;                    
   --mask-soft: rgb(0 0 0 / 0.28);            
   --mask-full: rgb(0 0 0 / 1);
-  --wave-1: #e6e0f8;             
-  --wave-2: #7f98f2;             
-  --wave-3: #f9e0ec;             
-  --wave-4: #def5e3;             
-  --wave-5: #c9bdf6;             
+  --wave-1: #ebe7fa;             
+  --wave-2: #a89bf0;             
+  --wave-3: #fff0cf;             
+  --wave-4: #fff8e6;             
+  --wave-5: #cfc5f7;             
   --chrome-1: #ffffff;           
   --chrome-2: #9a9aa8;
   --chrome-3: #ececf3;
@@ -37,8 +37,8 @@
   --color-noise: rgb(17 17 17 / 0.07);
   --holo-1: #fff3d6;             
   --holo-2: #e6e1fb;             
-  --holo-3: #fbe6f3;             
-  --holo-4: #ddf4ff;             
+  --holo-3: #f3effc;             
+  --holo-4: #fff6de;             
 
   
   --bg-dark: linear-gradient(180deg, #1a1a1a 0%, var(--color-ink) 100%);
