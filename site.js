@@ -1,9 +1,8 @@
 /* 案件だけの動き：groxi株式会社（骨格の swipe.js は直さない）
  * 1. 2段のマーキー（.mq）：data-word の語を繰り返して2段に並べ、長さから1周の秒数（約50px/秒）を決める
- * 2. ステッカーの英字（.stk）：1文字ずつ .ch に分け、傾きとずれを少しずつ変える（参考の重なった塊文字）
- * 3. 電光掲示板（.led）：叫びの文を複製して継ぎ目なく流す（複製は aria-hidden。文言照合は元の1つだけ）
- * 4. カードの帯（.reel）：4秒ごとに1枚送る（そのページにいるときだけ。触ったら止める）
- * 5. 進行バー（.bar）・椅子（.sit）：ページに入ったら .is-on（出現と同じ時刻）
+ * 2. 背景のトンネル（.tunnel__svg）：ページごとに消失点をずらす
+ * 3. 横スクロールのカード（.reel）：4秒ごとに1枚送る（そのページにいるときだけ。触ったら止める）
+ * 4. 進行バー（.bar）・椅子（.sit）：ページに入ったら .is-on（出現と同じ時刻）
  */
 (() => {
   document.querySelectorAll('.mq').forEach((mq) => {
@@ -20,17 +19,17 @@
     window.addEventListener('resize', fit);
   });
 
-  document.querySelectorAll('.stk').forEach((el) => {
-    const t = el.textContent;
-    el.textContent = '';
-    [...t].forEach((c, i) => {
-      const s = document.createElement('span');
-      s.className = 'ch';
-      s.style.setProperty('--r', ((i % 3) - 1) * 4);
-      s.style.setProperty('--dy', (i % 2) * 3 - 1);
-      s.textContent = c === ' ' ? ' ' : c;
-      el.appendChild(s);
-    });
+  const tunnel = document.querySelector('.tunnel__svg');
+  const VP = [[0, 0], [-7, 5], [8, -4], [-6, -6], [0, 0], [7, 6], [-8, 3], [6, -5], [0, 4], [-5, 0], [5, 0], [0, -4]];
+  document.addEventListener('pagechange', (e) => {
+    if (!tunnel) return;
+    const [x, y] = VP[e.detail.index % VP.length];
+    tunnel.style.setProperty('--tx', `${x}%`);
+    tunnel.style.setProperty('--ty', `${y}%`);
+  });
+  const thumb = document.querySelector('.scrollbar__thumb');
+  document.addEventListener('pagechange', (e) => {
+    if (thumb) thumb.style.setProperty('--pos', (e.detail.index / Math.max(1, e.detail.total - 1)).toFixed(3));
   });
 
   document.querySelectorAll('.reel').forEach((reel) => {
