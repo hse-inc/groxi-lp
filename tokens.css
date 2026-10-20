@@ -20,7 +20,7 @@
   --color-led-dim: rgb(255 186 47 / 0.14);   
   --color-grid: rgb(82 63 206 / 0.14);       
   --color-ray: rgb(82 63 206 / 0.22);        
-  --color-plate: rgb(255 255 255 / 0.86);    
+  --color-plate: #ffffff;                    
   --mask-soft: rgb(0 0 0 / 0.28);            
   --mask-full: rgb(0 0 0 / 1);
   --wave-1: #e6e0f8;             

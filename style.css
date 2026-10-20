@@ -162,12 +162,13 @@
 .reel__dots .is-on { background: var(--color-accent); }
 
 .page--term { font-family: var(--font-dot); }
-.page--term .page__inner { gap: var(--sp-g); }
-.term__bar { font-size: var(--fs-ui); color: var(--color-term-dim); }
-.ttl--term { position: relative; font-family: var(--font-dot); font-weight: 400; font-size: 1.75em; color: var(--color-accent); padding-right: 1.6em; }
+.page--term .page__inner { gap: clamp(1.1em, 4.6dvh, 2.8em); }   
+.page--term .txt { gap: clamp(0.75em, 2.4dvh, 1.5em); }
+.term__bar { position: relative; z-index: 2; justify-self: start; padding: 0.2em 0.5em 0.2em 0; font-size: var(--fs-ui); color: var(--color-term-dim); background: var(--color-ink); }   
+.ttl--term { position: relative; font-family: var(--font-dot); font-weight: 400; font-size: clamp(1.75em, 4dvh, 2.1em); line-height: 1.3; color: var(--color-accent); padding-right: 1.6em; }
 .ico--q { position: absolute; right: 0; top: -0.4em; rotate: 10deg; animation: float var(--float-t) ease-in-out infinite alternate; }
-.term { color: var(--color-term); font-size: 1.06em; }
-.rain { opacity: 0.22; top: var(--header-h); }
+.term { color: var(--color-term); font-size: clamp(1.06em, 2.4dvh, 1.2em); }
+.rain { opacity: 0.16; top: var(--header-h); }
 .rain__col { position: absolute; top: var(--header-h); font-family: var(--font-dot); font-size: var(--fs-min); line-height: 1.9; color: var(--color-term); white-space: nowrap; animation: rain 14s linear infinite; }
 .rain__col--1 { left: 6%; }
 .rain__col--2 { right: 5%; animation-duration: 19s; animation-delay: -7s; }
@@ -192,9 +193,6 @@
 .bar__state::after { content: attr(data-done); position: absolute; left: 0; right: 0; top: 0; color: var(--color-ink); background: var(--color-base); opacity: 0; }
 .bar.is-on .bar__state::after { animation: done 1ms linear 1900ms forwards; }
 @keyframes done { to { opacity: 1; } }
-.bar__flag { position: absolute; right: -6px; top: -26px; opacity: 0; scale: 0.3; rotate: 15deg; }
-.bar.is-on .bar__flag { animation: flag 500ms var(--ease-pop) 1900ms forwards; }
-@keyframes flag { to { opacity: 1; scale: 1; rotate: 0deg; } }
 
 .fan { position: relative; z-index: 2; display: grid; justify-items: center; gap: 0.2em; }
 .fan__wifi { width: 3em; height: 3em; color: var(--color-purple); animation: pulse 2s ease-in-out infinite; }
