@@ -57,11 +57,12 @@
     const manual = (d) => { touched = true; clearInterval(timer); show(now + d); };
     if (prev) prev.addEventListener('click', () => manual(-1));
     if (next) next.addEventListener('click', () => manual(1));
-    let wheelAt = 0;
+    let wheelLock = false, wheelIdle = 0;
     track.addEventListener('wheel', (e) => {
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
       e.preventDefault(); e.stopPropagation();
-      const t = performance.now(); if (t - wheelAt < 500) return; wheelAt = t;
+      clearTimeout(wheelIdle); wheelIdle = setTimeout(() => { wheelLock = false; }, 250);
+      if (wheelLock) return; wheelLock = true;
       manual(e.deltaX > 0 ? 1 : -1);
     }, { passive: false });
   });
