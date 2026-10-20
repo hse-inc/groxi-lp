@@ -19,7 +19,7 @@
 @keyframes sway-a { 0% { translate: -30% 0; rotate: -12deg; scale: 0.9 1; } 50% { translate: 10% -6%; rotate: 8deg; scale: 1.15 1.05; } 100% { translate: 35% 4%; rotate: 16deg; scale: 0.85 1; } }
 @keyframes sway-b { 0% { translate: 20% 0; rotate: 10deg; } 100% { translate: -45% 8%; rotate: -14deg; } }
 
-.column::after { content: ""; position: absolute; inset: 0; z-index: 30; pointer-events: none; filter: url(#grain); opacity: 0.5; }
+.column::after { content: ""; position: absolute; inset: 0; z-index: 30; pointer-events: none; filter: url(#grain); opacity: 0.35; }   
 
 .chrome {
   position: absolute; z-index: 1; font-family: var(--font-en); font-size: 4.4em; line-height: 1; letter-spacing: -0.02em; pointer-events: none;
@@ -84,7 +84,7 @@
 
 .hl {
   background-image: linear-gradient(var(--color-accent), var(--color-accent)); background-repeat: no-repeat; background-size: 0% 68%; background-position: 0 82%;
-  font-weight: 700; padding: 0 0.08em;
+  font-weight: 700; padding: 0 0.08em; white-space: nowrap;   
 }
 .rv.is-on .hl { background-size: 100% 68%; transition: background-size 500ms var(--ease-out) 300ms; }
 .rv.is-on .hl--2 { transition-delay: 700ms; }
@@ -114,10 +114,10 @@
 }
 .btn2--fill { background: var(--color-accent); }
 @media (hover: hover) { .btn2:hover { transform: translate(2px, 2px); box-shadow: var(--hard); } }
-.tag, .sub { display: inline-block; padding: 0 0.4em; font-family: var(--font-dot); font-size: var(--fs-ui); line-height: 1.6; border: 1px solid var(--color-ink); }
-.tag { color: var(--color-ink); background: var(--color-accent); }
-.sub { color: var(--color-purple); background: var(--color-pale); margin-top: 0.5em; }
-.note { font-family: var(--font-dot); font-size: var(--fs-min); line-height: 1.4; opacity: 0.8; }
+.tag, .sub { display: inline-block; padding: 0 0.4em; font-size: var(--fs-ui); line-height: 1.6; border: 1px solid var(--color-ink); }
+.tag { color: var(--color-ink); background: var(--color-accent); font-family: var(--font-body); font-weight: 700; }
+.sub { color: var(--color-purple-2); background: var(--color-pale); margin-top: 0.5em; font-family: var(--font-dot); }
+.note { font-family: var(--font-body); font-weight: 500; font-size: var(--fs-min); line-height: 1.4; color: var(--color-ink); }   
 
 .ico { width: var(--s, 48px); height: var(--s, 48px); overflow: visible; color: var(--color-ink); }
 .f-y { fill: var(--color-accent); }
@@ -179,7 +179,7 @@
 @keyframes rain { from { transform: translateY(-50%); } to { transform: translateY(0); } }
 .page--term .page__inner::before { content: ""; position: absolute; inset: 0; z-index: -1; background: repeating-linear-gradient(0deg, var(--color-term-dim) 0 1px, transparent 1px 4px); opacity: 0.12; pointer-events: none; }
 .term__line .ln::before { content: "> "; color: var(--color-term-dim); }
-.err { color: var(--color-error); animation: blink 0.9s steps(2) infinite; }
+.err { color: var(--color-alert); }   
 @keyframes blink { to { opacity: 0.3; } }
 .term__ok { font-weight: 700; }
 .band { display: inline; padding: 0.05em 0.3em; color: var(--color-ink); background: var(--color-base); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -241,12 +241,14 @@
   .page--dense .card { padding: 0.5em 0.8em 0.6em; }
 }
 
+.header-nav .hb--entry, .form .form__submit { color: var(--color-ink); }
 .info { display: grid; gap: 0.6em; }
 .info__row { display: grid; grid-template-columns: 5em 1fr; gap: 0.6em; }
 .info dt { font-family: var(--font-dot); color: var(--color-purple); }
 .page--long .win { margin-bottom: var(--sp-g); }
 .page--long .stk--s { margin-bottom: var(--sp-1); }
 .req dt { font-family: var(--font-dot); }
+.req .sub { color: var(--color-purple-3); }   
 .req__row--empty { display: none; }   
 .field__opt { font-family: var(--font-dot); font-size: var(--fs-min); color: var(--color-purple); }
 
@@ -276,6 +278,7 @@
   .rail-deco--server { right: 14%; top: 12%; width: 100px; height: 100px; animation-delay: -1s; }
   .rail-deco--cloud { right: 30%; bottom: 8%; width: 90px; height: 90px; animation-delay: -2.6s; }
   .rail-logo__jobs { font-family: var(--font-dot); }
+  .rail-side .btn--fill { color: var(--color-ink); }
   
   .column { outline: 3px solid var(--color-ink); }
   .winbar { position: absolute; left: 0; right: 0; top: 0; z-index: 26; height: 6px; pointer-events: none; }

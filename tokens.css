@@ -7,13 +7,15 @@
   --color-accent-2: #f5a600;     
   --color-purple: #523FCE;       
   --color-purple-2: #3d2ea8;     
+  --color-purple-3: #1f165f;     
   --color-base: #ffffff;         
   --color-pale: #f1effb;         
   --color-line: #111111;         
   --color-line-soft: #cfcae8;    
   --color-on-dark: #ffffff;      
   --color-on-dark-line: rgb(255 255 255 / 0.6);
-  --color-error: #e0312b;        
+  --color-error: #b3221d;        
+  --color-alert: #ff6b5c;        
   --color-shadow: rgb(17 17 17 / 0.14);
   --color-term: #7cff6b;         
   --color-term-dim: rgb(124 255 107 / 0.45);
