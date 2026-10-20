@@ -281,8 +281,6 @@
   .rail-side .btn--fill { color: var(--color-ink); }
   
   .column { outline: 3px solid var(--color-ink); }
-  .winbar { position: absolute; left: 0; right: 0; top: 0; z-index: 26; height: 6px; pointer-events: none; }
-  .winbar__btns { position: absolute; right: 24px; top: 9px; width: 10px; height: 10px; background: var(--color-base); border: 1px solid var(--color-ink); box-shadow: -14px 0 0 var(--color-base), -14px 0 0 1px var(--color-ink), -28px 0 0 var(--color-base), -28px 0 0 1px var(--color-ink); }
   .scrollbar { position: absolute; right: 0; top: var(--header-h); bottom: 0; z-index: 25; width: 16px; background: var(--color-bevel); border-left: 2px solid var(--color-ink); pointer-events: none; }
   .scrollbar::before, .scrollbar::after { position: absolute; left: 0; right: 0; height: 16px; display: grid; place-items: center; font-size: 13px; line-height: 1; color: var(--color-ink); background: var(--color-base); }
   .scrollbar::before { content: "▲"; top: 0; border-bottom: 2px solid var(--color-ink); }
