@@ -1,7 +1,7 @@
 /* 案件だけの動き：groxi株式会社（骨格の swipe.js は直さない）
  * 1. 2段のマーキー（.mq）：data-word の語を繰り返して2段に並べ、長さから1周の秒数（約50px/秒）を決める
  * 2. 背景のトンネル（.tunnel__svg）：ページごとに消失点をずらす
- * 3. 横スクロールのカード（.reel）：4秒ごとに1枚送る（そのページにいるときだけ。触ったら止める）
+ * 3. 横スクロールのカード（.reel）：4秒ごとに1枚送る（そのページにいるときだけ。触ったら止める）。左右のボタンと横のホイールでも送れる（PC）
  * 4. 進行バー（.bar）・椅子（.sit）：ページに入ったら .is-on（出現と同じ時刻）
  */
 (() => {
@@ -53,6 +53,17 @@
       if (e.detail.page === page && !touched) timer = setInterval(() => show(now + 1), Number(reel.dataset.auto) || 4000);
     });
     track.addEventListener('pointerdown', () => { touched = true; clearInterval(timer); }, { passive: true });
+    const prev = reel.querySelector('.reel__btn--prev'), next = reel.querySelector('.reel__btn--next');
+    const manual = (d) => { touched = true; clearInterval(timer); show(now + d); };
+    if (prev) prev.addEventListener('click', () => manual(-1));
+    if (next) next.addEventListener('click', () => manual(1));
+    let wheelAt = 0;
+    track.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault(); e.stopPropagation();
+      const t = performance.now(); if (t - wheelAt < 500) return; wheelAt = t;
+      manual(e.deltaX > 0 ? 1 : -1);
+    }, { passive: false });
   });
 
   document.addEventListener('pagechange', (e) => {
