@@ -280,6 +280,7 @@
   .rail-deco--cloud { right: 30%; bottom: 8%; width: 90px; height: 90px; animation-delay: -2.6s; }
   .rail-logo__jobs { font-family: var(--font-dot); }
   .rail-side .btn--fill { color: var(--color-ink); }
+  .fan__spots { justify-content: center; gap: 1.4em; }   
   
   .column { outline: 3px solid var(--color-ink); }
   .scrollbar { position: absolute; right: 0; top: var(--header-h); bottom: 0; z-index: 25; width: 16px; background: var(--color-bevel); border-left: 2px solid var(--color-ink); pointer-events: none; }
