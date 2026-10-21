@@ -71,7 +71,8 @@
 }
 .stk--r { justify-content: flex-end; rotate: 4deg; }
 .stk--long { font-size: calc(var(--fs-stk) * 0.72); margin-bottom: 0.15em; }   
-.stk--s { font-size: calc(var(--fs-stk) * 0.6); margin-top: 0; rotate: -3deg; }
+.stk--s { font-size: calc(var(--fs-stk) * 0.85); margin-top: 0; rotate: -3deg; }   
+.stk--s.stk--long { font-size: calc(var(--fs-stk) * 0.66); }   
 .stk.rv { opacity: 0; transform: scale(2.2) rotate(-10deg); transition: opacity 200ms ease, transform 450ms var(--ease-pop); }
 .stk.rv.is-on { opacity: 1; transform: none; }
 
@@ -158,7 +159,7 @@
 .card__no { justify-self: start; padding: 0 0.5em; font-family: var(--font-dot); font-size: var(--fs-ui); line-height: 1.6; color: var(--color-ink); background: var(--color-accent); border: 1px solid var(--color-ink); }
 .card__ttl { font-family: var(--font-head); font-weight: 900; font-size: 1.2em; line-height: 1.3; }
 
-.reel__nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 0; }
+.reel__nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: var(--sp-p); }   
 .reel__btn { width: 28px; height: 22px; padding: 0; font: inherit; font-size: var(--fs-min); line-height: 1; color: var(--color-ink); background: var(--color-base); border: var(--line) solid var(--color-ink); box-shadow: var(--hard); cursor: pointer; }
 .reel__btn:active { translate: 1px 1px; box-shadow: none; }
 .reel__dots { display: flex; justify-content: center; gap: 6px; }
