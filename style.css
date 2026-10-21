@@ -63,6 +63,7 @@
   text-shadow: 0.05em 0.05em 0 var(--color-purple), 0.09em 0.09em 0 var(--color-purple), 0.13em 0.13em 0 var(--color-purple), 0.2em 0 0 var(--color-base), -0.2em 0 0 var(--color-base), 0 0.2em 0 var(--color-base), 0 -0.2em 0 var(--color-base), 0.15em 0.15em 0 var(--color-base), -0.15em 0.15em 0 var(--color-base), 0.15em -0.15em 0 var(--color-base), -0.15em -0.15em 0 var(--color-base);
   rotate: -4deg;
 }
+.page:not(.page--dense) .mq + .stk { margin-top: 0.2em; }   
 .stk::before {
   content: ""; position: absolute; left: 50%; top: 50%; z-index: -1; width: 10em; height: 10em; margin: -5em 0 0 -5em; pointer-events: none;
   background: repeating-conic-gradient(from 0deg, var(--color-ray) 0deg 4deg, transparent 4deg 11deg);
