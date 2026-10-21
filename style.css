@@ -49,7 +49,7 @@
 
 .site-header::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px; background: linear-gradient(90deg, var(--color-purple) 0%, var(--color-purple-2) 100%); }
 
-.mq { position: relative; height: 2.2em; margin-inline: calc(var(--gutter) * -1); overflow: hidden; line-height: 1.1; white-space: nowrap; pointer-events: none; }
+.mq { position: relative; height: 2.5em; margin-inline: calc(var(--gutter) * -1); overflow: hidden; line-height: 1.1; white-space: nowrap; pointer-events: none; }
 .mq__row { position: absolute; left: 0; display: flex; gap: 0.6em; width: max-content; will-change: transform; }
 .mq__row--a { top: 0; font-family: var(--font-serif-it); font-style: italic; font-size: 1.1em; letter-spacing: 0.04em; color: var(--color-purple); animation: mq-l var(--mq-t) linear infinite; }
 .mq__row--b { top: 1em; font-family: var(--font-glitch); font-size: 1.3em; color: var(--color-purple-2); opacity: 0.8; animation: mq-r var(--mq-t) linear infinite; }
@@ -192,11 +192,11 @@
 .bar__steps span::before { content: "▼ "; }
 .bar__box { height: 18px; padding: 3px; background: var(--color-base); border: 2px solid var(--color-ink); }
 .bar__fill { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--color-purple) 0 6px, var(--color-base) 6px 8px); }
-.bar.is-on .bar__fill { animation: fill 1.5s steps(16) 300ms forwards; }
+.bar.is-on .bar__fill { animation: fill 3s steps(16) 300ms forwards; }   
 @keyframes fill { to { width: 100%; } }
 .bar__state { position: relative; text-align: center; color: var(--color-purple); }
 .bar__state::after { content: attr(data-done); position: absolute; left: 0; right: 0; top: 0; color: var(--color-ink); background: var(--color-base); opacity: 0; }
-.bar.is-on .bar__state::after { animation: done 1ms linear 1900ms forwards; }
+.bar.is-on .bar__state::after { animation: done 1ms linear 3400ms forwards; }
 @keyframes done { to { opacity: 1; } }
 
 .fan { position: relative; z-index: 2; display: grid; justify-items: center; gap: 0.2em; }
