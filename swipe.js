@@ -39,56 +39,90 @@
   window.addEventListener('load', () => activate(indexFromScroll()));
   activate(indexFromScroll());
 
-  let arriving = false;
   const go = (index) => {
     const i = Math.max(0, Math.min(pages.length - 1, index));
     if (i === current) return;
-    arriving = pages[i].classList.contains('page--long');
     pages[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const GAP_MS = 250, LOCK_MS = 600, HOLD_MS = 450, QUIET_MS = 3000;
-  let locked = false, lastT = 0, lastDy = 0, vel = 0, sentAt = -1e9, fresh = true, longAt = 0;
-  const insideLong = (dy) => {
-    const page = pages[current];
-    if (!page || !page.classList.contains('page--long')) return null;
-    const top = page.offsetTop, bottom = top + page.offsetHeight;
-    const viewTop = slider.scrollTop, viewBottom = viewTop + slider.clientHeight;
-    const now = performance.now();
-    const can = dy > 0 ? viewBottom < bottom - 1 : viewTop > top + 1;
-    if (can) { longAt = now; return 'scroll'; }
-    if (now - longAt < HOLD_MS) return 'hold';
-    return null;
+  const SETTLE_MS = 300, HOLD_MS = 300, RISE_N = 3, RISE_K = 2, GLIDE_MS = 280;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let glideId = 0;
+  const glide = (el) => {
+    const id = ++glideId, from = slider.scrollTop, to = el.offsetTop, t0 = performance.now();
+    if (reduce) { slider.scrollTop = to; return; }
+    slider.style.scrollSnapType = 'none';
+    const step = (n) => {
+      if (id !== glideId) return;
+      const p = Math.min(1, (n - t0) / GLIDE_MS), k = 1 - Math.pow(1 - p, 3);
+      slider.scrollTop = from + (to - from) * k;
+      if (p < 1) requestAnimationFrame(step); else slider.style.scrollSnapType = '';
+    };
+    requestAnimationFrame(step);
   };
+  let burst = null, settleUntil = 0, target = -1, longAt = -1e9;
   window.addEventListener('wheel', (e) => {
     if (SCROLL || e.ctrlKey) return;
-    const t = e.timeStamp || performance.now();
-    const dt = Math.max(8, t - lastT);
-    const dy = e.deltaY * (e.deltaMode === 1 ? 16 : 1), ad = Math.abs(dy);
-    const v = ad / dt;
-    const gap = t - lastT > GAP_MS && (Math.abs(lastDy) < 10 || t - sentAt > QUIET_MS);
-    const flip = ad >= 4 && lastDy !== 0 && Math.sign(dy) !== Math.sign(lastDy);
-    const surge = ad >= 15 && ad > Math.abs(lastDy) * 1.6 + 4 && v > vel * 1.8 + 0.25;
-    const isNew = gap || flip || surge || t - lastT > 1000;
-    vel = t - lastT > GAP_MS ? v : vel * 0.6 + v * 0.4;
-    lastT = t;
-    lastDy = dy;
-    if (isNew) fresh = true;
-    if (locked) { e.preventDefault(); fresh = false; return; }
-    if (arriving) {
-      if (isNew) arriving = false;
-      else { e.preventDefault(); return; }
+    const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? slider.clientHeight : 1);
+    if (Math.abs(e.deltaX) > Math.abs(dy)) return;
+    const dir = Math.sign(dy), ad = Math.abs(dy);
+    if (!dir) return;
+    const t = e.timeStamp || performance.now(), now = performance.now();
+    const settling = now < settleUntil;
+    const gap = burst ? t - burst.lastT : Infinity;
+    if (burst && dir !== burst.dir) burst.opp = (burst.opp || 0) + ad; else if (burst) burst.opp = 0;
+    const reversed = !!burst && dir !== burst.dir && (ad >= 4 || burst.opp >= 10);
+    const quietStart = !!burst && gap > 300 && burst.lastAd < 8 && ad >= Math.max(12, burst.lastAd * 2 + 4);
+    const separate = !!burst && gap > 900;
+    const renewed = !!burst && burst.taken && t - burst.takenT > 400 && burst.low < 30 && ad >= Math.max(30, burst.peak * 0.5) && ad > burst.low * 2 + 16;
+    const sameStep = !!burst && Math.abs(ad / burst.unit - Math.round(ad / burst.unit)) < 0.01;
+    const steady = !!burst && gap >= 150 && (gap >= 500 || !(burst.lastGap > 0 && gap > burst.lastGap * 1.2));
+    const stepped = sameStep && burst.uniform && steady;
+    const rising = !!burst && ad > burst.lastAd * 1.25 + 1 ? (burst.rise || 0) + 1 : 0;
+    const regrown = !!burst && burst.taken && t - burst.takenT > 250 && rising >= RISE_N && ad >= burst.low * RISE_K + 6;
+    const fresh = !burst || reversed || (!(settling && dir === burst.dir) && (quietStart || separate || renewed || stepped || regrown));
+    if (fresh) burst = { dir, peak: ad, low: ad, taken: false, arriving: false, unit: ad, uniform: ad >= 50 };
+    else if (!sameStep) burst.uniform = false;
+    burst.low = ad >= burst.peak ? ad : Math.min(burst.low, ad);
+    burst.peak = Math.max(burst.peak, ad);
+    burst.lastGap = fresh ? 0 : gap;
+    burst.lastT = t;
+    burst.lastAd = ad;
+    burst.rise = fresh ? 0 : rising;
+    if (burst.arriving) { e.preventDefault(); return; }
+    const index = settling && target >= 0 ? target : current;
+    const page = pages[index];
+    if (page && page.classList.contains('page--long')) {
+      const top = page.offsetTop, edge = dir > 0 ? top + page.offsetHeight - slider.clientHeight : top;
+      const can = dir > 0 ? slider.scrollTop < edge - 1 : slider.scrollTop > edge + 1;
+      if (can && !settling) {
+        longAt = now;
+        burst.taken = true; burst.takenT = t;
+        if (ad >= Math.abs(edge - slider.scrollTop)) { e.preventDefault(); slider.scrollTo({ top: edge, behavior: 'instant' }); }
+        else if (!slider.contains(e.target)) { e.preventDefault(); slider.scrollBy({ top: dy, behavior: 'instant' }); }
+        return;
+      }
+      if (now - longAt < HOLD_MS) { e.preventDefault(); return; }
     }
-    const inside = insideLong(dy);
-    if (inside === 'scroll') return;
     e.preventDefault();
-    if (inside === 'hold' || !fresh || ad < 4) return;
-    fresh = false;
-    locked = true;
-    sentAt = t;
-    go(current + (dy > 0 ? 1 : -1));
-    setTimeout(() => { locked = false; }, LOCK_MS);
+    burst.sum = (burst.sum || 0) + ad;
+    if (burst.taken || burst.sum < 10) return;
+    const nextIndex = Math.max(0, Math.min(pages.length - 1, index + dir));
+    if (nextIndex === index) return;
+    burst.taken = true;
+    burst.takenT = t;
+    burst.arriving = pages[nextIndex].classList.contains('page--long');
+    target = nextIndex;
+    settleUntil = now + SETTLE_MS;
+    glide(pages[nextIndex]);
   }, { passive: false });
+
+  const insideLong = (d) => {
+    const page = pages[current];
+    if (!page || !page.classList.contains('page--long')) return false;
+    const top = page.offsetTop, bottom = top + page.offsetHeight;
+    return d > 0 ? slider.scrollTop + slider.clientHeight < bottom - 1 : slider.scrollTop > top + 1;
+  };
 
   window.addEventListener('keydown', (e) => {
     if (SCROLL) return;
@@ -96,7 +130,7 @@
     const down = ['ArrowDown', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey);
     const up = ['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
     if (!down && !up) return;
-    if (insideLong(down ? 1 : -1) === 'scroll') return;
+    if (insideLong(down ? 1 : -1)) return;
     e.preventDefault();
     if (e.repeat) return;
     go(current + (down ? 1 : -1));

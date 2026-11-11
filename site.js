@@ -67,6 +67,17 @@
     }, { passive: false });
   });
 
+  document.querySelectorAll('.step__btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const step = btn.closest('.step');
+      const open = !step.classList.contains('is-open');
+      step.closest('.page').querySelectorAll('.step.is-open').forEach((s) => { s.classList.remove('is-open'); s.querySelector('.step__btn').setAttribute('aria-expanded', 'false'); });
+      step.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      step.closest('.page').classList.toggle('is-big', open && step.classList.contains('step--big'));
+    });
+  });
+
   document.addEventListener('pagechange', (e) => {
     document.querySelectorAll('.bar, .sit').forEach((el) => el.classList.toggle('is-on', el.closest('.page') === e.detail.page));
   });
