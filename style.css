@@ -197,19 +197,6 @@
 .band { display: inline; padding: 0.05em 0.3em; color: var(--color-ink); background: var(--color-base); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .term__ok .ln + .ln { margin-top: 0.25em; }
 
-.bar { position: relative; display: grid; gap: 0.2em; margin-top: 0; font-family: var(--font-dot); font-size: var(--fs-ui); line-height: 1; }
-.bar__steps { display: flex; justify-content: space-between; padding: 0 0.3em; color: var(--color-purple); }
-.bar__steps span::before { content: "▼ "; }
-.bar__box { height: 18px; padding: 3px; background: var(--color-base); border: 2px solid var(--color-ink); }
-.bar__fill { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--color-purple) 0 6px, var(--color-base) 6px 8px); }
-.bar.is-on .bar__fill { animation: fill 3s steps(16) 300ms forwards; }   
-@keyframes fill { to { width: 100%; } }
-.bar__state { position: relative; text-align: center; color: var(--color-purple); }
-.bar__state::after { content: attr(data-done); position: absolute; left: 0; right: 0; top: 0; color: var(--color-ink); background: var(--color-base); opacity: 0; }
-.bar.is-on .bar__state::after { animation: done 1ms linear 3400ms forwards; }
-@keyframes done { to { opacity: 1; } }
-
-.page--term .bar__steps, .page--term .bar__state { color: var(--color-term); }
 .step__in .note { padding: 0 0.9em 0.6em; color: var(--color-ink); }
 .steps { position: relative; z-index: 2; display: grid; gap: var(--sp-1); font-family: var(--font-body); }
 .step { color: var(--color-ink); background: var(--color-base); border: var(--line) solid var(--color-ink); box-shadow: var(--hard); }
@@ -231,6 +218,8 @@
 .page--term.page--fit .txt { gap: var(--sp-p); }
 .page--term.page--fit .term { font-size: 1em; line-height: 1.4; }
 .page--term.page--fit .ttl--term { font-size: 1.4em; }
+.page--term.page--fit .stk { margin-bottom: 0.7em; }   
+.page--term .ttl--term, .page--term .term { background: var(--bg-dark); }   
 .page--term.page--fit .steps { gap: 3px; }
 .page--term.page--fit .step__btn { min-height: 36px; padding: 0.15em 0.6em; }
 .page--term.page--fit .step__in .body { padding: 0 0.7em 0.35em; line-height: 1.4; }
@@ -296,7 +285,6 @@
 @media (max-height: 740px) {
   .page--full { --lh-body: 1.36; --sp-g: 0.3em; --sp-p: 0.2em; }
   .page--fit .fan__line { display: none; }
-  .page--term.page--fit .bar { display: none; }
   .page--term.is-big .txt { display: none; }   
   .page--fit .fan__wifi { width: 1.5em; height: 1.5em; }
 }

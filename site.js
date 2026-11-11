@@ -2,7 +2,7 @@
  * 1. 2段のマーキー（.mq）：data-word の語を繰り返して2段に並べ、長さから1周の秒数（約50px/秒）を決める
  * 2. 背景のトンネル（.tunnel__svg）：ページごとに消失点をずらす
  * 3. 横スクロールのカード（.reel）：4秒ごとに1枚送る（そのページにいるときだけ。触ったら止める）。左右のボタンと横のホイールでも送れる（PC）
- * 4. 進行バー（.bar）・椅子（.sit）：ページに入ったら .is-on（出現と同じ時刻）
+ * 4. 椅子（.sit）：ページに入ったら .is-on（出現と同じ時刻）
  */
 (() => {
   document.querySelectorAll('.mq').forEach((mq) => {
@@ -79,6 +79,6 @@
   });
 
   document.addEventListener('pagechange', (e) => {
-    document.querySelectorAll('.bar, .sit').forEach((el) => el.classList.toggle('is-on', el.closest('.page') === e.detail.page));
+    document.querySelectorAll('.sit').forEach((el) => el.classList.toggle('is-on', el.closest('.page') === e.detail.page));
   });
 })();
